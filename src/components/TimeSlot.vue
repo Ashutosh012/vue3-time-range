@@ -100,6 +100,7 @@ function scrollToCurrentTime() {
 }
 
 onMounted(populateTimeSlots);
+
 </script>
   
 <style>
