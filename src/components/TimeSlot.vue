@@ -28,11 +28,11 @@ const activeTimeRanges: TimeRange[] = [
 ];
 const timeSlots = ref<string[]>([]);
 
-function getCurrentTimeIST() {
+const getCurrentTimeIST = () => {
     return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 }
 
-function isActiveTime(time: string): boolean {
+const isActiveTime = (time: string): boolean => {
     const now = getCurrentTimeIST();
     const currentDateStr = now.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
     const currentTime = now.getHours() * 60 + now.getMinutes(); // current time in minutes
@@ -53,13 +53,13 @@ function isActiveTime(time: string): boolean {
     });
 }
 
-function addDays(dateStr: string, days: number): string {
+const addDays = (dateStr: string, days: number): string => {
   const date = new Date(dateStr);
   date.setDate(date.getDate() + days);
   return date.toISOString().split('T')[0];
 }
 
-function populateTimeSlots() {
+const populateTimeSlots = () => {
     for (let hour = 0; hour < 24; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
             const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
@@ -68,14 +68,14 @@ function populateTimeSlots() {
     }
 }
 
-function selectTime(time: string) {
+const selectTime = (time: string) => {
     if (isActiveTime(time)) {
         selectedTime.value = time;
         showTimePicker.value = false;
     }
 }
 
-function toggleTimePicker() {
+const toggleTimePicker = () => {
     showTimePicker.value = !showTimePicker.value;
 
     if (showTimePicker.value) {
@@ -85,8 +85,7 @@ function toggleTimePicker() {
     }
 }
 
-function scrollToCurrentTime() {
-    // Adjust the timezone offset as needed, for IST, it's '+5.5'
+const scrollToCurrentTime = () => {
     const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
     const currentHour = now.getHours();
     const currentMinutes = Math.floor(now.getMinutes() / 30) * 30;
@@ -100,14 +99,12 @@ function scrollToCurrentTime() {
 }
 
 onMounted(populateTimeSlots);
-
 </script>
   
 <style>
 .time-picker-container {
     position: relative;
     width: 200px;
-    /* Adjust width as needed */
 }
 
 .time-input-button {
@@ -123,7 +120,6 @@ onMounted(populateTimeSlots);
     position: absolute;
     width: 100%;
     max-height: 200px;
-    /* Adjust height as needed */
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 4px;
