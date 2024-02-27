@@ -1,7 +1,8 @@
 <template>
     <div class="time-picker-container">
         <button @click="toggleTimePicker" class="time-input-button">Select Time</button>
-        <div v-if="showTimePicker" class="time-dropdown" @click.stop ref="timePickerRef">
+        <input type="time">
+        <div v-if="showTimePicker" class="time-dropdown" @click.stop ref="timePicker">
             <div v-for="time in timeSlots" :key="time" :data-time="time"
                 :class="['time-slot', { 'time-slot-disabled': !isActiveTime(time), 'time-slot-active': isActiveTime(time) }]"
                 @click="selectTime(time)">
@@ -21,7 +22,7 @@ interface TimeRange {
 
 const showTimePicker = ref(false);
 const selectedTime = ref('');
-const timePickerRef = ref<HTMLDivElement | null>(null);
+const timePicker = ref<HTMLDivElement | null>(null);
 const activeTimeRanges: TimeRange[] = [
     { start: '10:00', end: '13:00' },
     { start: '16:00', end: '18:00' },
@@ -91,7 +92,7 @@ const scrollToCurrentTime = () => {
     const currentMinutes = Math.floor(now.getMinutes() / 30) * 30;
     const currentTimeSlot = `${currentHour.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`;
 
-    const currentTimeElement = timePickerRef.value?.querySelector(`[data-time="${currentTimeSlot}"]`);
+    const currentTimeElement = timePicker.value?.querySelector(`[data-time="${currentTimeSlot}"]`);
 
     if (currentTimeElement) {
         currentTimeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

@@ -1,18 +1,43 @@
-# Vue 3 + TypeScript + Vite
+# 🚀 Project Name: Time Range
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 📚 Overview
 
-## Recommended IDE Setup
+<p align="center">
+    Time Range plugin or package will help you to use time based on ranges. It will super helpful in appointment apps. for e.g doctor have 2 ranges of time in a day. One is 10 AM to 1 PM and second is 04 PM to 06 PM and for that you can't enable whole day time in time picker otherwise user will pick any time for the appointment. This plugin is gonna fix that issue and helpful to book an appointment through any website easily.
+</p>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+<p align="center">
+  <a href="#tech-stack"><strong>Tech Stack</strong></a> ·  
+  <a href="#future-tasks"><strong>Future Tasks</strong></a>
+</p>
+<br/>
 
-## Type Support For `.vue` Imports in TS
+## Tech Stack
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- Vue3 Composition API [VueJS](https://vuejs.org/guide/introduction.html)
+- [Tailwind CSS](https://dub.sh/together-ai) for styling
+- [Flowbite](https://dub.sh/together-ai) Flowbite is built on top of Tailwind and provide some premium UI designs
+- [Headless UI](https://js.langchain.com/docs/get_started/introduction/) to use standard components
+- [Heroicons](https://www.pinecone.io/) for the free and copyright-free icons
+- Vite [Frontend Tooling](https://www.bytescale.com/) to generate light fast HMR, inbuilt support of TypeScript and optimized build.
+- Vitest [Unit Testing](https://www.bytescale.com/) to write unit test cases.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Future tasks
+
+These are some future tasks that I have planned. Contributions are welcome!
+
+- [ ] On the listing page, we want to add sorting. Sort by name, department, designation, email and mobile
+- [ ] Allow file type missing in Image upload - Allow only jpeg, png images
+- [ ] Step 2 form needs to add banking-related validations in 
+- [ ] Step 2 form replace account name with account type and implement a dropdown
+- [ ] Step 3 form for skills needs to implement a dropdown
+- [ ] Step 3 form for Experience needs to correct the design of dropdowns and make it inline
+- [ ] Step 3 form for Upload resume needs to add validation of only PDF file should allow to upload and common file upload button design
+- [ ] Step 4 form for row validation of education details needs to be added
+- [ ] Step 5 form for row validation of experience  details needs to be added
+- [ ] Step 6 form for the need to correct the date format
+- [ ] In the Current project, I didn't use state management libraries like pinia and vuex. so you can implement any or both libraries and create a wrapper structure for the best practices. - you can follow these guidelines - https://blog.logrocket.com/exploring-advanced-design-patterns-vue-js/
+- [ ] Next I am gonna create a resume builder app with proper authentication system and app will be lifetime free.
+- [ ] Initially It will be with one default template, later I will add some more templates and features.
