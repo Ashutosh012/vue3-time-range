@@ -153,4 +153,3 @@ onMounted(populateTimeSlots);
     cursor: pointer;
 }
 </style>
-  
