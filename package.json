@@ -15,6 +15,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ashutosh012/time-range.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
