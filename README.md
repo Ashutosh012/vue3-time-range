@@ -23,6 +23,8 @@
 - Vitest [Unit Testing](https://www.bytescale.com/) to write unit test cases.
 
 
+Buy me a coffee link: https://www.buymeacoffee.com/ashuab
+
 
 ## Future tasks
 
