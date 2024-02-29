@@ -47,6 +47,24 @@ interface TimeRange {
     end: string;
 }
 
+const props = defineProps({
+    use12HourFormat:{
+        type:Boolean,
+        required:true
+    },
+    firstRangeTime:{
+        type:Object,
+        required:true
+    },
+    secondRangeTime:{
+        type:Object,
+    },
+    slotGap:{
+        type:Number,
+        default:30
+    }
+})
+
 const showDropdown = ref(false);
 const times = ref<string[]>([]);
 const selectedTime = ref('');
@@ -56,8 +74,8 @@ const selectedPeriod = ref('PM');
 const periods = ['AM', 'PM'];
 
 const activeTimeRanges: TimeRange[] = [
-    { start: '10:00', end: '13:00' },
-    { start: '16:00', end: '18:00' },
+    props.firstRangeTime,
+    props.secondRangeTime,
 ];
 
 const populateTimeOptions = (startHour: number, startMinute: number, use12HourFormat: boolean) => {
@@ -85,7 +103,7 @@ const populateTimeOptions = (startHour: number, startMinute: number, use12HourFo
     _times.push(use12HourFormat ? `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}` : `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
 
     // Increment minute and adjust hour and period accordingly
-    minute += 30;
+    minute += props.slotGap;
     if (minute >= 60) {
       minute -= 60; // Reset minutes after reaching 60
       hour = (hour % hourLimit) + 1; // Increment hour and loop back after reaching hourLimit
@@ -109,14 +127,14 @@ const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
     if (showDropdown.value) {
         const now = getCurrentTimeIST();
-        populateTimeOptions(now.getHours(), now.getMinutes() - (now.getMinutes() % 30), false);
-        currentTime.value = times.value[0]; // Set the first time option as the current time
+        populateTimeOptions(now.getHours(), now.getMinutes() - (now.getMinutes() % 30), props.use12HourFormat);
+        currentTime.value = times.value[0]; 
         selectedPeriod.value = now.getHours() >= 12 ? 'PM' : 'AM';
     }
 };
 
 const getCurrentTimeIST = () => {
-    return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+    return new Date(new Date().toLocaleString("en-US", { timeZone: props.timeZone }));
 }
 
 const addDays = (dateStr: string, days: number): string => {
@@ -149,7 +167,6 @@ const selectTime = (time: string) => {
         selectedTime.value = time;
         showDropdown.value = false;
     }
-
 };
 
 const selectPeriod = (period: string) => {
@@ -158,7 +175,7 @@ const selectPeriod = (period: string) => {
 
 onMounted(() => {
     const now = getCurrentTimeIST();
-    selectedTime.value = formatTime(now.getHours(), now.getMinutes() - (now.getMinutes() % 30));
+    selectedTime.value = formatTime(now.getHours(), now.getMinutes() - (now.getMinutes() % props.slotGap));
 });
 </script>
 
@@ -187,13 +204,13 @@ onMounted(() => {
     cursor: pointer;
 }
 .scrollable-without-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    overflow-y: scroll; /* For the functionality */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
 }
 
 .scrollable-without-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none;
 }
 </style>
   
