@@ -1,4 +1,4 @@
-import TimeRange from "./components/TimeRange.vue";
+import TimeRange from "./components/TimeRangeV002.vue";
 
 export default {
     install: (app:any) => {

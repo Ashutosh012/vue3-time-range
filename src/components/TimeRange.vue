@@ -2,6 +2,7 @@
     <div class="time-picker-container">
         <button @click="toggleTimePicker" class="time-input-button">Select Time</button>
         <div v-if="showTimePicker" class="time-dropdown" @click.stop ref="timePicker">
+            {{ timeSlots }}
             <div v-for="time in timeSlots" :key="time" :data-time="time"
                 :class="['time-slot', { 'time-slot-disabled': !isActiveTime(time), 'time-slot-active': isActiveTime(time) }]"
                 @click="selectTime(time)">
@@ -69,6 +70,7 @@ const populateTimeSlots = () => {
 }
 
 const selectTime = (time: string) => {
+    console.log(time)
     if (isActiveTime(time)) {
         selectedTime.value = time;
         showTimePicker.value = false;
