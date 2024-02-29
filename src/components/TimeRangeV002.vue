@@ -42,11 +42,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-interface TimeRange {
-    start: string;
-    end: string;
-}
-
 const props = defineProps({
     use12HourFormat:{
         type:Boolean,
@@ -62,6 +57,10 @@ const props = defineProps({
     slotGap:{
         type:Number,
         default:30
+    },
+    timeZone:{
+        type:String,
+        default:"Asia/Kolkata"
     }
 })
 
@@ -73,7 +72,7 @@ const currentTime = ref('');
 const selectedPeriod = ref('PM');
 const periods = ['AM', 'PM'];
 
-const activeTimeRanges: TimeRange[] = [
+const activeTimeRanges = [
     props.firstRangeTime,
     props.secondRangeTime,
 ];
@@ -148,8 +147,8 @@ const isActiveTime = (time: string): boolean => {
     const currentDateStr = now.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
     const currentTime = now.getHours() * 60 + now.getMinutes(); // current time in minutes
     return activeTimeRanges.some((range) => {
-        const [startHour, startMinutes] = range.start.split(':').map(Number);
-        const [endHour, endMinutes] = range.end.split(':').map(Number);
+        const [startHour, startMinutes] = range?.start.split(':').map(Number);
+        const [endHour, endMinutes] = range?.end.split(':').map(Number);
         const [timeHour, timeMinutes] = time.split(':').map(Number);
         const rangeDateStr = (startHour <= endHour) ? currentDateStr : addDays(currentDateStr, 1); // add a day if the range spans over midnight
         const isToday = rangeDateStr === currentDateStr;
