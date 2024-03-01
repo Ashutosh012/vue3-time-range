@@ -14,7 +14,7 @@
             >
                 <div 
                     v-for="(time, index) in times" :key="`time-${index}`"
-                    class="flex px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm text-gray-700"
+                    class="flex px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm"
                     :class="['time-slot', { 'time-slot-disabled': !isActiveTime(time), 'time-slot-active': isActiveTime(time) }]"
                     @click="selectTime(time)"
                 >
@@ -132,7 +132,7 @@ const toggleDropdown = () => {
     }
 };
 
-const getCurrentTimeIST = () => {
+const getCurrentTimeIST = () => {   
     return new Date(new Date().toLocaleString("en-US", { timeZone: props.timeZone }));
 }
 
@@ -143,9 +143,17 @@ const addDays = (dateStr: string, days: number): string => {
 }
 
 const isActiveTime = (time: string): boolean => {
-    const now = getCurrentTimeIST();
+    const now = getCurrentTimeIST(); 
+    let getMinitute;
+    if(props.use12HourFormat){
+        getMinitute = new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}).replace("PM", "");
+    } else {
+        getMinitute = new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat});
+    }
+    
     const currentDateStr = now.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
-    const currentTime = now.getHours() * 60 + now.getMinutes(); // current time in minutes
+    const currentTime = getMinitute * 60 + now.getMinutes(); // current time in minutes   
+    
     return activeTimeRanges.some((range) => {
         const [startHour, startMinutes] = range?.start.split(':').map(Number);
         const [endHour, endMinutes] = range?.end.split(':').map(Number);
@@ -155,7 +163,7 @@ const isActiveTime = (time: string): boolean => {
         const startTime = startHour * 60 + startMinutes;
         const endTime = endHour * 60 + endMinutes;
         const slotTime = timeHour * 60 + timeMinutes;
-        const isActive = slotTime >= startTime && slotTime <= endTime;
+        const isActive = slotTime >= startTime && slotTime <= endTime;       
         const isPast = isToday && slotTime < currentTime;
         return isActive && !isPast;
     });

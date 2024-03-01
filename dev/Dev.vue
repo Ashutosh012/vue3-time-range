@@ -1,6 +1,5 @@
 <template>
     <TimeRange
-
     :use12HourFormat="false"
     :firstRangeTime="{start:'10:00', end:'01:00'}"
     :secondRangeTime="{start:'16:00', end:'18:00'}"
