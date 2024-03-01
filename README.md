@@ -73,4 +73,4 @@ Please adhere to this project's `code of conduct`.
 
 ## 🧸 Appendix
 
-Feel free to use (https://github.com/Ashutosh012/time-range) it in your project, report bugs and make PR 👏🏽.
+Feel free to use (https://github.com/Ashutosh012/vue3-time-range.git) it in your project, report bugs and make PR 👏🏽.

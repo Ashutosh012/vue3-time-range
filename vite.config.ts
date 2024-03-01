@@ -8,7 +8,7 @@ export default defineConfig({
     lib:{
       entry: resolve(__dirname, "src/index.ts"),
       name:"time-range",
-      fileName: (format) => `time-slot.${format}.ts`
+      fileName: (format) => `vue3-time-range.${format}.ts`
     },
     rollupOptions:{
       external: ["vue"],

@@ -1,23 +1,23 @@
 {
-  "name": "vue3-time-range", 
-  "version": "0.0.6",
+  "name": "vue3-time-range",
+  "version": "0.0.8",
   "description": "A simple time range picker to define multiple min and max time of the day.",
   "author": "Ashutosh Batra <ashutoshbatra.ab1997@gmail.com>",
-  "main": "./dist/time-range.umd.js",
-  "module": "./dist/time-range.es.js",
-  "exports":{
-    ".":{
-      "import":"./dist/time-range.es.js",
-      "require":"./dist/time-range.umd.js"
+  "main": "./dist/vue3-time-range.umd.js",
+  "module": "./dist/vue3-time-range.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3-time-range.es.js",
+      "require": "./dist/vue3-time-range.umd.js"
     },
-    "./dist/style.css":"./dist/style.css"
+    "./dist/style.css": "./dist/style.css"
   },
   "files": [
     "dist/"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ashutosh012/time-range.git"
+    "url": "https://github.com/Ashutosh012/vue3-time-range.git"
   },
   "scripts": {
     "dev": "vite",
@@ -30,6 +30,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.0",
     "vue-tsc": "^1.8.27"
