@@ -1,7 +1,10 @@
 <template>
     <div class="relative">
-        <button @click="toggleDropdown" class="px-4 py-2 bg-gray-200 rounded-lg focus:outline-none focus:shadow-outline">
+        <button v-if="!props.modelValue" @click="toggleDropdown" class="px-4 py-2 bg-gray-200 rounded-lg focus:outline-none focus:shadow-outline">
             <span>Select Time</span>
+        </button>
+        <button v-if="props.modelValue" @click="toggleDropdown" class="px-4 py-2 bg-gray-200 rounded-lg focus:outline-none focus:shadow-outline">
+            <span>{{ props.modelValue }}</span>
         </button>
         
         <div 
@@ -21,7 +24,9 @@
                     {{ time }}
                 </div>
             </div>
+            
             <div 
+                v-if="props.use12HourFormat"
                 class="bg-white rounded-md shadow-lg z-10 ml-2" 
                 style="height: fit-content;"
             >
@@ -34,8 +39,6 @@
                 </div>
             </div>
         </div>
-
-        <p>Selected Time: {{ selectedTime }} {{ selectedPeriod }}</p>
     </div>
 </template>
   
@@ -43,6 +46,10 @@
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({
+    modelValue: {
+      type: String,
+      default: "",
+    },
     use12HourFormat:{
         type:Boolean,
         required:true
@@ -64,9 +71,11 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['update:modelValue'])
+
 const showDropdown = ref(false);
 const times = ref<string[]>([]);
-const selectedTime = ref('');
+const selectedTime = ref(props.modelValue);
 const currentTime = ref('');
 
 const selectedPeriod = ref('PM');
@@ -116,11 +125,11 @@ const populateTimeOptions = (startHour: number, startMinute: number, use12HourFo
   times.value = _times;
 };
 
-const formatTime = (hour: number, minute: number) => {
-    const formattedHour = hour < 10 ? `0${hour}` : hour.toString();
-    const formattedMinute = minute < 10 ? `0${minute}` : minute.toString();
-    return `${formattedHour}:${formattedMinute}`;
-};
+// const formatTime = (hour: number, minute: number) => {
+//     const formattedHour = hour < 10 ? `0${hour}` : hour.toString();
+//     const formattedMinute = minute < 10 ? `0${minute}` : minute.toString();
+//     return `${formattedHour}:${formattedMinute}`;
+// };
 
 const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
@@ -144,15 +153,15 @@ const addDays = (dateStr: string, days: number): string => {
 
 const isActiveTime = (time: string): boolean => {
     const now = getCurrentTimeIST(); 
-    let getMinitute;
+    let getMinute;
     if(props.use12HourFormat){
-        getMinitute = new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}).replace("PM", "");
+        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}).replace("PM", ""));
     } else {
-        getMinitute = new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat});
+        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}));
     }
     
     const currentDateStr = now.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
-    const currentTime = getMinitute * 60 + now.getMinutes(); // current time in minutes   
+    const currentTime = getMinute * 60 + now.getMinutes(); // current time in minutes   
     
     return activeTimeRanges.some((range) => {
         const [startHour, startMinutes] = range?.start.split(':').map(Number);
@@ -172,17 +181,25 @@ const isActiveTime = (time: string): boolean => {
 const selectTime = (time: string) => {
     if (isActiveTime(time)) {
         selectedTime.value = time;
+        updateSelectedTime();
         showDropdown.value = false;
     }
 };
 
 const selectPeriod = (period: string) => {
     selectedPeriod.value = period;
+    updateSelectedTime();
+};
+
+const updateSelectedTime = () => {
+    const newTime = props.use12HourFormat ? `${selectedTime.value} ${selectedPeriod.value}` : selectedTime.value;
+    emit('update:modelValue', newTime);
 };
 
 onMounted(() => {
-    const now = getCurrentTimeIST();
-    selectedTime.value = formatTime(now.getHours(), now.getMinutes() - (now.getMinutes() % props.slotGap));
+    //const now = getCurrentTimeIST();
+    //selectedTime.value = formatTime(now.getHours(), now.getMinutes() - (now.getMinutes() % props.slotGap));
+    updateSelectedTime();
 });
 </script>
 
