@@ -10,6 +10,41 @@ To install the latest stable version:
 npm i vue3-time-range
 ```
 
+## 📖 Usage
+
+### 1/3. Register as a Vue component globally
+```js
+//  main.js or main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+
+import TimeRange from "vue3-time-range"
+import "vue3-time-range/dist/style.css"
+
+const app = createApp(App)
+
+app.use(TimeRange);
+
+app.mount('#app')
+```
+
+### 2/3. Use the registered component in your Vue template
+
+```html
+<template>
+  <div>
+    <TimeRange
+    v-model="timeValue"
+    :use12HourFormat="false"
+    :firstRangeTime="{start:'10:00', end:'01:00'}"
+    :secondRangeTime="{start:'16:00', end:'18:00'}"
+    :slotGap="30"
+    :timeZone="'Asia/Kolkata'"
+    ></TimeRange>
+  </div>
+</template>
+```
+
 ## 🍔 Props
 
 <table>
@@ -19,6 +54,13 @@ npm i vue3-time-range
     <th>Required</th>
     <th>Default</th>
     <th>Description</th>
+  </tr>
+  <tr>
+    <td>modelValue</td>
+    <td>String</td>
+    <td>true</td>
+    <td>""</td>
+    <td>v-model:value for bind dynamic value</td>
   </tr>
   <tr>
     <td>use12HourFormat</td>

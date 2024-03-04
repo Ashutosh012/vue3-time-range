@@ -43,7 +43,7 @@
 </template>
   
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 
 const props = defineProps({
     modelValue: {
@@ -73,132 +73,124 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const showDropdown = ref(false);
-const times = ref<string[]>([]);
-const selectedTime = ref(props.modelValue);
-const currentTime = ref('');
+const showDropdown = ref(false)
+const times = ref<string[]>([])
+const selectedTime = ref(props.modelValue)
+const currentTime = ref('')
 
-const selectedPeriod = ref('PM');
-const periods = ['AM', 'PM'];
+const selectedPeriod = ref('PM')
+const periods = ['AM', 'PM']
 
 const activeTimeRanges = [
     props.firstRangeTime,
     props.secondRangeTime,
-];
+]
 
 const populateTimeOptions = (startHour: number, startMinute: number, use12HourFormat: boolean) => {
-  const _times: string[] = [];
-  let hour = startHour;
-  let minute = startMinute;
-  const hourLimit = use12HourFormat ? 12 : 24;
-  let period = 'AM';
+  const _times: string[] = []
+  let hour = startHour
+  let minute = startMinute
+  const hourLimit = use12HourFormat ? 12 : 24
+  let period = 'AM'
 
   // Determine initial period for 12-hour format
   if (use12HourFormat && hour >= 12) {
-    period = 'PM';
-    hour = hour > 12 ? hour - 12 : hour; // Convert 24h to 12h format if hour is 13-23
+    period = 'PM'
+    hour = hour > 12 ? hour - 12 : hour // Convert 24h to 12h format if hour is 13-23
   }
 
   for (let i = 0; i < 48; i++) { 
     // 2 slots per hour, 24 hours
-    let formattedHour = hour.toString();
+    let formattedHour = hour.toString()
     if (use12HourFormat) {
       // 12-hour format needs to cycle between 1-12, not 0-11
-      formattedHour = hour === 0 ? '12' : hour.toString();
+      formattedHour = hour === 0 ? '12' : hour.toString()
     }
 
     // Push time with AM/PM if using 12-hour format, otherwise just the time
-    _times.push(use12HourFormat ? `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}` : `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+    _times.push(use12HourFormat ? `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}` : `${formattedHour.padStart(2, '0')}:${minute.toString().padStart(2, '0')}`)
 
     // Increment minute and adjust hour and period accordingly
-    minute += props.slotGap;
+    minute += props.slotGap
     if (minute >= 60) {
-      minute -= 60; // Reset minutes after reaching 60
-      hour = (hour % hourLimit) + 1; // Increment hour and loop back after reaching hourLimit
+      minute -= 60 // Reset minutes after reaching 60
+      hour = (hour % hourLimit) + 1 // Increment hour and loop back after reaching hourLimit
 
       // Toggle period between AM and PM for 12-hour format
       if (use12HourFormat && hour === 12) {
-        period = period === 'AM' ? 'PM' : 'AM';
+        period = period === 'AM' ? 'PM' : 'AM'
       }
     }
   }
-  times.value = _times;
+  times.value = _times
 };
 
-// const formatTime = (hour: number, minute: number) => {
-//     const formattedHour = hour < 10 ? `0${hour}` : hour.toString();
-//     const formattedMinute = minute < 10 ? `0${minute}` : minute.toString();
-//     return `${formattedHour}:${formattedMinute}`;
-// };
-
 const toggleDropdown = () => {
-    showDropdown.value = !showDropdown.value;
+    showDropdown.value = !showDropdown.value
     if (showDropdown.value) {
-        const now = getCurrentTimeIST();
-        populateTimeOptions(now.getHours(), now.getMinutes() - (now.getMinutes() % 30), props.use12HourFormat);
-        currentTime.value = times.value[0]; 
-        selectedPeriod.value = now.getHours() >= 12 ? 'PM' : 'AM';
+        const now = getCurrentTimeIST()
+        populateTimeOptions(now.getHours(), now.getMinutes() - (now.getMinutes() % 30), props.use12HourFormat)
+        currentTime.value = times.value[0]
+        selectedPeriod.value = now.getHours() >= 12 ? 'PM' : 'AM'
     }
 };
 
 const getCurrentTimeIST = () => {   
-    return new Date(new Date().toLocaleString("en-US", { timeZone: props.timeZone }));
+    return new Date(new Date().toLocaleString("en-US", { timeZone: props.timeZone }))
 }
 
 const addDays = (dateStr: string, days: number): string => {
-    const date = new Date(dateStr);
-    date.setDate(date.getDate() + days);
-    return date.toISOString().split('T')[0];
+    const date = new Date(dateStr)
+    date.setDate(date.getDate() + days)
+    return date.toISOString().split('T')[0]
 }
 
 const isActiveTime = (time: string): boolean => {
-    const now = getCurrentTimeIST(); 
-    let getMinute;
+    const now = getCurrentTimeIST()
+    let getMinute
     if(props.use12HourFormat){
-        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}).replace("PM", ""));
+        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}).replace("PM", ""))
     } else {
-        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}));
+        getMinute = parseInt(new Date(now).toLocaleString("en-US", { hour: 'numeric', hour12: props.use12HourFormat}))
     }
     
-    const currentDateStr = now.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
-    const currentTime = getMinute * 60 + now.getMinutes(); // current time in minutes   
+    const currentDateStr = now.toISOString().split('T')[0] // 'YYYY-MM-DD' format
+    const currentTime = getMinute * 60 + now.getMinutes() // current time in minutes   
     
     return activeTimeRanges.some((range) => {
-        const [startHour, startMinutes] = range?.start.split(':').map(Number);
-        const [endHour, endMinutes] = range?.end.split(':').map(Number);
-        const [timeHour, timeMinutes] = time.split(':').map(Number);
-        const rangeDateStr = (startHour <= endHour) ? currentDateStr : addDays(currentDateStr, 1); // add a day if the range spans over midnight
-        const isToday = rangeDateStr === currentDateStr;
-        const startTime = startHour * 60 + startMinutes;
-        const endTime = endHour * 60 + endMinutes;
-        const slotTime = timeHour * 60 + timeMinutes;
-        const isActive = slotTime >= startTime && slotTime <= endTime;       
-        const isPast = isToday && slotTime < currentTime;
-        return isActive && !isPast;
-    });
+        const [startHour, startMinutes] = range?.start.split(':').map(Number)
+        const [endHour, endMinutes] = range?.end.split(':').map(Number)
+        const [timeHour, timeMinutes] = time.split(':').map(Number)
+        const rangeDateStr = (startHour <= endHour) ? currentDateStr : addDays(currentDateStr, 1) // add a day if the range spans over midnight
+        const isToday = rangeDateStr === currentDateStr
+        const startTime = startHour * 60 + startMinutes
+        const endTime = endHour * 60 + endMinutes
+        const slotTime = timeHour * 60 + timeMinutes
+        const isActive = slotTime >= startTime && slotTime <= endTime
+        const isPast = isToday && slotTime < currentTime
+        return isActive && !isPast
+    })
 }
 
 const selectTime = (time: string) => {
     if (isActiveTime(time)) {
-        selectedTime.value = time;
-        updateSelectedTime();
-        showDropdown.value = false;
+        selectedTime.value = time
+        updateSelectedTime()
+        showDropdown.value = false
     }
-};
+}
 
 const selectPeriod = (period: string) => {
-    selectedPeriod.value = period;
-    updateSelectedTime();
-};
+    selectedPeriod.value = period
+    updateSelectedTime()
+}
 
 const updateSelectedTime = () => {
-    const newTime = props.use12HourFormat ? `${selectedTime.value} ${selectedPeriod.value}` : selectedTime.value;
-    emit('update:modelValue', newTime);
+    const newTime = props.use12HourFormat ? `${selectedTime.value} ${selectedPeriod.value}` : selectedTime.value
+    emit('update:modelValue', newTime)
 };
 
 onMounted(() => {
-    //const now = getCurrentTimeIST();
-    //selectedTime.value = formatTime(now.getHours(), now.getMinutes() - (now.getMinutes() % props.slotGap));
     updateSelectedTime();
 });
 </script>

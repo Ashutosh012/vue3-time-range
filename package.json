@@ -1,6 +1,6 @@
 {
   "name": "vue3-time-range",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A simple time range picker to define multiple min and max time of the day.",
   "author": "Ashutosh Batra <ashutoshbatra.ab1997@gmail.com>",
   "main": "./dist/vue3-time-range.umd.js",

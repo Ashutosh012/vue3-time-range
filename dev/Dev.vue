@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from "vue"
 import TimeRange from "../src/components/TimeRangeV002.vue"
-const timeValue = ref('');
+const timeValue = ref('')
 </script>
