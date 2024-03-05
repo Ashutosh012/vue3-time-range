@@ -19,6 +19,13 @@
     "type": "git",
     "url": "https://github.com/Ashutosh012/vue3-time-range.git"
   },
+  "keywords": [
+    "vue3 composition API",
+    "time range",
+    "time slots",
+    "calender",
+    "Appointment Booking"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

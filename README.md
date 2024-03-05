@@ -116,3 +116,11 @@ Please adhere to this project's `code of conduct`.
 ## 🧸 Appendix
 
 Feel free to use (https://github.com/Ashutosh012/vue3-time-range.git) it in your project, report bugs and make PR 👏🏽.
+
+## Upcoming task
+1. Write articles on medium about vue3 npm package and how to create npm package
+2. Design Improvements and remove tailwind
+3. Fix typescript errors
+4. Integrate with datepicker
+5. SSR compatible
+6. Make it compatible for all javascript frameworks
